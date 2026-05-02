@@ -50,7 +50,7 @@ cat > dist/.gitattributes <<'EOF'
 EOF
 
 echo "[3/4] Ensuring Space exists (creates it if missing)..."
-hf repo create "$REPO" --repo-type space --space-sdk static -y || true
+hf repo create "$REPO" --repo-type space --space_sdk static --exist-ok
 
 echo "[4/4] Uploading dist/ to https://huggingface.co/spaces/$REPO ..."
 hf upload --repo-type space "$REPO" dist/ . --commit-message "deploy: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -58,4 +58,4 @@ hf upload --repo-type space "$REPO" dist/ . --commit-message "deploy: $(date -u 
 echo
 echo "✅ Done."
 echo "   Space:  https://huggingface.co/spaces/$REPO"
-echo "   App:    https://${REPO/\//-}.hf.space"
+echo "   App:    https://${REPO/\//-}.static.hf.space"

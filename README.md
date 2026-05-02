@@ -136,18 +136,19 @@ scripts/deploy-hf-space.sh <user-or-org>/<space-name>
 ```
 
 Your Space lives at `https://huggingface.co/spaces/<user>/<space-name>`; the running
-app at `https://<user>-<space-name>.hf.space`. First load downloads the ~810 MB ONNX
-from `openai/privacy-filter`; subsequent visits are instant via IndexedDB cache.
+app at `https://<user>-<space-name>.static.hf.space`. First load downloads the
+~810 MB ONNX from `openai/privacy-filter`; subsequent visits are instant via
+IndexedDB cache.
 
 ### Caveats on Spaces hosting
 
 - **`measureUserAgentSpecificMemory()` will read "n/a"** — HF Spaces' static SDK
-  doesn't ship the `Cross-Origin-Opener-Policy: same-origin` +
-  `Cross-Origin-Embedder-Policy: require-corp` headers our local dev server sets,
-  so `crossOriginIsolated` is false. The diagnostics panel falls back to JS-heap
-  numbers gracefully. If you need true cross-origin isolation, switch the Space
-  to the **Docker SDK** and serve `dist/` from an nginx/Caddy that emits those
-  headers — the app code itself doesn't need to change.
+  emits `Cross-Origin-Opener-Policy: same-origin` but **not**
+  `Cross-Origin-Embedder-Policy: require-corp`, so `crossOriginIsolated` is false.
+  The diagnostics panel falls back to JS-heap numbers gracefully. If you need true
+  cross-origin isolation, switch the Space to the **Docker SDK** and serve `dist/`
+  from an nginx/Caddy that emits both headers — the app code itself doesn't
+  need to change.
 - **WebGPU on the Space side is the user's browser**, not the server, so anyone
   on Chrome/Edge 113+ or Safari 18+ gets the GPU path. WebGPU-less visitors
   see the red banner the local app shows (no silent CPU fallback).
