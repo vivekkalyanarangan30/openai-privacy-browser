@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+playwright-report/
+test-results/
+screenshots/
+.pw-profiles/
+.claude/
+.DS_Store
+*.log
+.env
+.env.local
